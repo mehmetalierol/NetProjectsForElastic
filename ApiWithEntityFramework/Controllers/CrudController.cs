@@ -15,7 +15,7 @@ namespace ApiWithEntityFramework.Controllers
         }
 
         [HttpGet("GetUser")]
-        public async Task<UserModel> Get()
+        public UserModel Get()
         {
             var user = DbContext.Users.FirstOrDefault(x => x.Title == "CL");
 
@@ -26,16 +26,9 @@ namespace ApiWithEntityFramework.Controllers
         public async Task<MailLog> InsertMailLog(UserModel userModel)
         {
             var model = new MailLog { UserId = userModel.Id };
-            try
-            {
-                var asd = await DbContext.MailLogs.AddAsync(model);
-                DbContext.SaveChanges();
-            }
-            catch (Exception ex)
-            {
+            await DbContext.MailLogs.AddAsync(model);
+            DbContext.SaveChanges();
 
-            }
-            
             return model;
         }
     }
